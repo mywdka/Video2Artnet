@@ -1,0 +1,3 @@
+//first line is the IP address of the ethernet adapter on the machine running the app, second line is the IP of the artnet interface. 
+10.85.37.111
+10.85.37.24
