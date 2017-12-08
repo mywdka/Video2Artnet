@@ -4,13 +4,24 @@
 void ofApp::setup(){
     ofBackground(255,255,255);
     ofSetVerticalSync(true);
-    
+	ofLog(OF_LOG_NOTICE,"hello");
+
+	//load the IP addresses for the network adapter and artnet device
+	vector < string > linesOfTheFile;
+	ofBuffer buffer = ofBufferFromFile("config.txt");
+	for (auto line : buffer.getLines()) {
+		linesOfTheFile.push_back(line);
+		ofLog(OF_LOG_NOTICE,"a:"+line);
+	}
+	localIP = linesOfTheFile[1];
+	deviceIP = linesOfTheFile[2];
     
     myMovie.load("movies/kwallencombined.mov");
     myMovie.setLoopState(OF_LOOP_NORMAL);
     myMovie.play();
     
-    artnet.setup("10.85.37.111"); //this is the IP on the port on the host machine that you will be connecting from
+    //artnet.setup("10.85.37.111"); //this is the IP on the port on the host machine that you will be connecting from
+	artnet.setup(localIP.c_str());
     testImage.allocate(512,1,OF_IMAGE_COLOR);
 }
 
@@ -56,8 +67,8 @@ void ofApp::draw(){
     testImage.getPixels()[5]= myColor2.b;
     
 
-    artnet.sendDmx("10.85.37.24", testImage.getPixels().getData(), 512);
-
+    //artnet.sendDmx("10.85.37.24", testImage.getPixels().getData(), 512);
+	artnet.sendDmx(deviceIP.c_str(), testImage.getPixels().getData(), 512);
     
     ofSetColor(255,0,0);
     ofDrawRectangle(20,220,20,rVal);

@@ -26,5 +26,6 @@ class ofApp : public ofBaseApp{
         ofVideoPlayer         myMovie;
         ofxArtnet artnet;
         ofImage testImage;
+		string localIP, deviceIP;
 		
 };
